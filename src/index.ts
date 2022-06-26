@@ -2,7 +2,7 @@ import { WebSocketServer } from 'ws';
 import dotenv from 'dotenv';
 
 import { Event } from './constants';
-import { getMousePosition, mouseDown, mouseUp, mouseLeft, mouseRight, drawCircle, drawRectangle } from './handlers';
+import { getMousePosition, mouseDown, mouseUp, mouseLeft, mouseRight, drawCircle, drawRectangle, printScreen } from './handlers';
 
 dotenv.config();
 
@@ -14,30 +14,37 @@ const socket = new WebSocketServer({ port }, () => {
 
 socket.on('connection', (ws) => {
     ws.on('message', (data, b) => {
-        const [event, value, height] = data.toString().split(' ');
-        console.log('event', event, value);
+        const [event, widthValue, widthHeight] = data.toString().split(' ');
+        const width = parseInt(widthValue, 10);
+        const height = parseInt(widthHeight, 10);
         switch (event) {
             case Event.MOUSE_POSITION:
                 const pos = getMousePosition();
                 ws.send(`${Event.MOUSE_POSITION} {${pos.x}},{${pos.y}}`);
                 break;
             case Event.MOUSE_UP:
-                mouseUp(parseInt(value));
+                mouseUp(width);
                 break;
             case Event.MOUSE_DOWN:
-                mouseDown(parseInt(value));
+                mouseDown(width);
                 break;
             case Event.MOUSE_LEFT:
-                mouseLeft(parseInt(value));
+                mouseLeft(width);
                 break;
             case Event.MOUSE_RIGHT:
-                mouseRight(parseInt(value));
+                mouseRight(width);
                 break;
             case Event.DRAW_CIRCLE:
-                drawCircle(parseInt(value));
+                drawCircle(width);
                 break;
             case Event.DRAW_RECTANGLE:
-                drawRectangle(parseInt(value), parseInt(height));
+                drawRectangle(width, height);
+                break;
+            case Event.DRAW_SQUARE:
+                drawRectangle(width, width);
+                break;
+            case Event.PRNT_SCRN:
+                printScreen();
                 break;
             default:
                 break;

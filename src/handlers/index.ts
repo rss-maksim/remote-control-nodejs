@@ -6,3 +6,4 @@ export * from './mouseRight';
 export * from './getScreenSize';
 export * from './drawCircle';
 export * from './drawRectangle';
+export * from './printScreen';
