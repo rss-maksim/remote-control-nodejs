@@ -1,6 +1,9 @@
 # remote-control-nodejs
 
 ### Running
+> To run client-server you have to clone the repository https://github.com/rolling-scopes-school/remote-control and start the front-end application
+> After that you need to start server.
+
 `npm run start`
 
 ### Port
